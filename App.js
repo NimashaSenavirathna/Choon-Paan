@@ -11,6 +11,10 @@ import DriverHome from './components/DriverHome';
 import AdminHome from './components/AdminHome';
 import UserHome from './components/UserHome';
 
+import ManageDrivers from './components/ManageDrivers';
+import ManageUsers from './components/ManageUsers';
+import ViewReports from './components/ViewReports';
+
 import { initializeApp } from "firebase/app";
 import { LogBox } from 'react-native';
 
@@ -53,6 +57,11 @@ const App = () => {
         <Stack.Screen name="DriverHome" component={DriverHome} />
         <Stack.Screen name="AdminHome" component={AdminHome} />
         <Stack.Screen name="UserHome" component={UserHome} />
+
+        {/* Admin Screens */}
+        <Stack.Screen name="ManageDrivers" component={ManageDrivers} />
+        <Stack.Screen name="ManageUsers" component={ManageUsers} />
+        <Stack.Screen name="ViewReports" component={ViewReports} />
       </Stack.Navigator>
     </NavigationContainer>
   );
