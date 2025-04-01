@@ -1,4 +1,4 @@
 
-var LocalIP="192.168.8.168"
+var LocalIP="10.121.40.254"
 
 export default LocalIP 
