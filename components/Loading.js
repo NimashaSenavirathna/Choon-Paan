@@ -70,7 +70,7 @@ export default class Loading extends React.Component {
             closeOnHardwareBackPress={false}
             showCancelButton={true}
             cancelText="Close"
-            cancelButtonColor="#ffc400"
+            cancelButtonColor="#ffffff"
             onCancelPressed={() => {
               this.hideAlert();
             }}

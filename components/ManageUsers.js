@@ -57,13 +57,14 @@ const ManageUsers = ({ navigation }) => {
     fetchUsers();
   }, []);
 
-  // Filter users based on search query
+  // Filter users safely (fixes toLowerCase issue)
   useEffect(() => {
-    const filtered = users.filter(
-      (user) =>
-        (user.name && user.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+    const filtered = users.filter((user) => {
+      const name = user.name ? user.name.toLowerCase() : '';
+      const email = user.email ? user.email.toLowerCase() : '';
+      const query = searchQuery.toLowerCase();
+      return name.includes(query) || email.includes(query);
+    });
     setFilteredUsers(filtered);
   }, [searchQuery, users]);
 
@@ -106,8 +107,8 @@ const ManageUsers = ({ navigation }) => {
             .map(
               (user) => `
             <tr>
-              <td style="padding: 8px;">${user.name}</td>
-              <td style="padding: 8px;">${user.email}</td>
+              <td style="padding: 8px;">${user.name || ''}</td>
+              <td style="padding: 8px;">${user.email || ''}</td>
             </tr>`
             )
             .join('')}
