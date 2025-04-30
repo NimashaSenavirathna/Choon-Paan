@@ -53,7 +53,7 @@ const Login = () => {
                 await AsyncStorage.setItem('role', 'driver');
 
                 setLoading(false);
-                navigation.replace('DriverHome');
+                navigation.replace('ChoonDrivers');
                 return;
             }
 
@@ -68,7 +68,7 @@ const Login = () => {
                 await AsyncStorage.setItem('role', 'user');
 
                 setLoading(false);
-                navigation.replace('UserHome');
+                navigation.replace('ChoonHome');
             } else {
                 throw new Error("User data not found");
             }

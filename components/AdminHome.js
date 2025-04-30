@@ -36,11 +36,36 @@ const AdminHome = ({ navigation }) => {
 
       <View style={styles.buttonContainer}>
         <Button
+          title="User Payments"
+          onPress={() => navigation.replace('AdminPayments')}
+          color="#6200ee"
+        />
+      </View>
+      
+      <View style={styles.buttonContainer}>
+        <Button
+          title="User Orders"
+          onPress={() => navigation.replace('AdminOrders')}
+          color="#6200ee"
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Manage Store"
+          onPress={() => navigation.replace('MyrAdminShop')}
+          color="#6200ee"
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button
           title="Logout"
           onPress={() => navigation.replace('Login')}
           color="#ff4444"
         />
       </View>
+      
     </ScrollView>
   );
 };

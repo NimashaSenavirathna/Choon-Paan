@@ -80,37 +80,27 @@ const ManageDrivers = () => {
     ]);
   };
 
-  const handleUpdate = async () => {
+  const handleAddOrUpdate = async () => {
     if (!name || !email) {
       Alert.alert('Error', 'Please enter both name and email.');
       return;
     }
     try {
       if (editingId) {
-        // Get the current data of the driver before updating
-        const snapshot = await get(ref(database, `/drivers/${editingId}`));
-        const currentDriverData = snapshot.val();
-
-        // Merge the existing data with the new data, updating only the relevant fields
-        const updatedData = {
-          ...currentDriverData,  // Retain the existing fields
-          name,  // Update the name if changed
-          email,  // Update the email if changed
-        };
-
-        await set(ref(database, `/drivers/${editingId}`), updatedData);
+        await set(ref(database, `/drivers/${editingId}`), { name, email });
         setDrivers(
-          drivers.map((driver) =>
-            driver.id === editingId
-              ? { id: editingId, ...updatedData }  // Merge updated data with the driver ID
-              : driver
-          )
+          drivers.map((driver) => (driver.id === editingId ? { id: editingId, name, email } : driver))
         );
         setEditingId(null);
-        Alert.alert('Success', 'Driver updated successfully.');
+      } else {
+        const newId = Date.now().toString();
+        await set(ref(database, `/drivers/${newId}`), { name, email });
+        setDrivers([...drivers, { id: newId, name, email }]);
       }
+      setName('');
+      setEmail('');
     } catch (error) {
-      console.error('Error updating driver:', error);
+      console.error('Error saving driver:', error);
     }
   };
 
@@ -158,16 +148,24 @@ const ManageDrivers = () => {
 
   return (
     <View style={styles.container}>
-      {editingId !== null && (
+      {editingId === null ? (
+        // Show "Add Driver" form
         <>
           <TextInput style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
           <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
-          <Button title="Update Driver" onPress={handleUpdate} />
+          <Button title="Add Driver" onPress={handleAddOrUpdate} />
+        </>
+      ) : (
+        // Show "Update Driver" form
+        <>
+          <TextInput style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
+          <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
+          <Button title="Update Driver" onPress={handleAddOrUpdate} />
         </>
       )}
 
       <TextInput style={styles.searchBar} placeholder="Search by name or email..." value={searchQuery} onChangeText={setSearchQuery} />
-
+      
       <FlatList
         data={filteredDrivers}
         keyExtractor={(item) => item.id}
